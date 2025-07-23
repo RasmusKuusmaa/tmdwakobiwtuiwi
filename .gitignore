@@ -1,0 +1,99 @@
+﻿# Build results
+bin/
+obj/
+[Bb]uild/
+[Bb]uild[Ll]og.*
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# VS Code directory
+.vscode/
+
+# Rider project files
+.idea/
+
+# Visual Studio working folders
+.vs/
+
+# DotCover
+*.dotCover
+
+# NCrunch
+*.ncrunch*
+.*crunch*.local.xml
+
+# Backup & Logs
+*.log
+*.bak
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+*.nuspec
+*.psmdcp
+# project.lock.json is deprecated
+project.lock.json
+
+# .NET Core
+project.assets.json
+project.nuget.cache
+
+# Auto-generated files
+Generated_Code/
+
+# Publish output
+publish/
+
+# Application Insights
+ApplicationInsights.config
+
+# Local test results
+TestResults/
+*.trx
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# macOS junk
+.DS_Store
+
+# JetBrains Rider
+.idea/
+
+# VS for Mac
+*.userprefs
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# WPF-specific generated files
+*.g.cs
+*.g.i.cs
+*.baml
+*.cache
+
+# XAML designer files
+*.xaml.cs
+
+# TFS
+$tf/
+
+# Uncomment if using Entity Framework migrations
+#migrations/
+
+# Optional: ignore your own secrets/settings files
+#appsettings.Development.json
+#secrets.json
