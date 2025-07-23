@@ -6,17 +6,163 @@
         xmlns:local="clr-namespace:tmdwa.Views"
         xmlns:vm="clr-namespace:tmdwa.ViewModels"
         mc:Ignorable="d"
-        Title="TypingWindow" Height="450" Width="800">
+        Title="TypingWindow" Height="500" Width="800">
     <Window.DataContext>
         <vm:TypingScreenViewModel/>
     </Window.DataContext>
+
+    <Window.Resources>
+        <local:BoolToIntConverter x:Key="BoolToIntConverter"/>
+    </Window.Resources>
+
     <Grid>
-        <TextBox Text="{Binding WrittenText, UpdateSourceTrigger=PropertyChanged}"
-                TextWrapping="Wrap"
-                FontSize="16"
-                VerticalScrollBarVisibility="Auto"
-                HorizontalScrollBarVisibility="Auto"
-                AcceptsReturn="True"
-                Margin="10"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Settings Panel -->
+        <GroupBox Header="Settings" Grid.Row="0" Margin="10">
+            <StackPanel>
+                <!-- Basic Settings -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="5">
+                        <TextBlock Text="Session Duration:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBox Text="{Binding DisplaySessionDuration, UpdateSourceTrigger=PropertyChanged}" 
+                                 Width="50" Height="25" Margin="0,0,5,0"/>
+                        <ToggleButton IsChecked="{Binding SessionTimeInMinutes}" 
+                                     Width="70" Height="25">
+                            <ToggleButton.Style>
+                                <Style TargetType="ToggleButton">
+                                    <Setter Property="Content" Value="Seconds"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter Property="Content" Value="Minutes"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="5">
+                        <TextBlock Text="Timeout Duration (seconds):" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBox Text="{Binding TimeoutDuration, UpdateSourceTrigger=PropertyChanged}" 
+                                 Width="50" Height="25"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="5">
+                        <TextBlock Text="Timeout Delay (seconds):" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBox Text="{Binding TimeoutDelay, UpdateSourceTrigger=PropertyChanged}" 
+                                 Width="50" Height="25"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Advanced Settings Expander -->
+                <Expander Header="Advanced Color Settings" Margin="0,10,0,0" IsExpanded="False">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="5">
+                            <CheckBox IsChecked="{Binding ColorWarningEnabled}" 
+                                     Content="Enable Color Warning" 
+                                     VerticalAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="5">
+                            <TextBlock Text="Warning at (seconds):" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <TextBox Text="{Binding ColorWarningThreshold, UpdateSourceTrigger=PropertyChanged}" 
+                                     Width="50" Height="25"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="5">
+                            <TextBlock Text="Warning Color:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <ComboBox SelectedItem="{Binding WarningColorName}"
+                                      SelectedIndex="0"
+                                      Width="100" Height="25">
+                                <ComboBoxItem Content="Red"/>
+                                <ComboBoxItem Content="Blue"/>
+                                <ComboBoxItem Content="Green"/>
+                                <ComboBoxItem Content="Orange"/>
+                                <ComboBoxItem Content="Purple"/>
+                                <ComboBoxItem Content="Yellow"/>
+                                <ComboBoxItem Content="Pink"/>
+                                <ComboBoxItem Content="Brown"/>
+                                <ComboBoxItem Content="Gray"/>
+                                <ComboBoxItem Content="DarkRed"/>
+                                <ComboBoxItem Content="DarkBlue"/>
+                                <ComboBoxItem Content="DarkGreen"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+                </Expander>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Timer Display Panel -->
+        <Grid Grid.Row="1" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Session Time Left: " FontSize="16" FontWeight="Bold"/>
+                <TextBlock Text="{Binding SessionTimeLeft}" FontSize="16" FontWeight="Bold"/>
+                <TextBlock Text="s" FontSize="16" FontWeight="Bold"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Text Deletion in: " FontSize="16" FontWeight="Bold"/>
+                <TextBlock Text="{Binding TimeoutTimeLeft}" 
+                          FontSize="16" 
+                          FontWeight="Bold"
+                          Foreground="{Binding TimeoutTimerColor}"/>
+                <TextBlock Text="s" FontSize="16" FontWeight="Bold" 
+                          Foreground="{Binding TimeoutTimerColor}"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Text Input Area -->
+        <Grid Grid.Row="2" Margin="10">
+            <TextBox Text="{Binding WrittenText, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap"
+                    FontSize="16"
+                    VerticalScrollBarVisibility="Auto"
+                    HorizontalScrollBarVisibility="Auto"
+                    AcceptsReturn="True"
+                    Foreground="{Binding TextColor}"/>
+
+            <TextBlock Text="Start typing to activate the session..."
+                      FontSize="16"
+                      Foreground="Gray"
+                      IsHitTestVisible="False"
+                      VerticalAlignment="Top"
+                      HorizontalAlignment="Left"
+                      Margin="5,3,0,0">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding WrittenText}" Value="">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+
     </Grid>
 </Window>
