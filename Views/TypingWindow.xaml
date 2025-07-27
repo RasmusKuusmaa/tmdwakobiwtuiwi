@@ -20,6 +20,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
         <!-- Settings Panel -->
@@ -135,7 +136,7 @@
         </Grid>
 
         <!-- Text Input Area -->
-        <Grid Grid.Row="2" Margin="10">
+        <Grid Grid.Row="2" Margin="10, 10,10,0">
             <TextBox Text="{Binding WrittenText, UpdateSourceTrigger=PropertyChanged}"
                     TextWrapping="Wrap"
                     FontSize="16"
@@ -162,6 +163,15 @@
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition Width="0.1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="1" Content="{Binding WordCount}" FontSize="28"/>
         </Grid>
 
     </Grid>

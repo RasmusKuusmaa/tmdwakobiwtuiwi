@@ -33,6 +33,7 @@ namespace tmdwa.ViewModels
                     _writtenText = value;
                     OnPropertyChanged();
                     OnUserTyped();
+                    UpdateWordCount();
                 }
             }
         }
@@ -87,6 +88,18 @@ namespace tmdwa.ViewModels
                 }
             }
         }
+        
+
+        private int _wordCount;
+
+        public int WordCount
+        {
+            get { return _wordCount; }
+            set { _wordCount = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         public double TimeoutDelay
         {
@@ -144,7 +157,19 @@ namespace tmdwa.ViewModels
                 OnPropertyChanged(nameof(DisplaySessionDuration));
             }
         }
-
+        private void UpdateWordCount()
+        {
+            if (string.IsNullOrWhiteSpace(_writtenText))
+            {
+                WordCount = 0;
+            }
+            else
+            {
+                WordCount = _writtenText.Split(new[]
+                {' ', '\t', '\n', '\r'}, StringSplitOptions.RemoveEmptyEntries)
+                    .Length;
+            }
+        }
         public double DisplaySessionDuration
         {
             get => _sessionTimeInMinutes ? _sessionDuration / 60.0 : _sessionDuration;
